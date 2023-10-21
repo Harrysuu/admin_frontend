@@ -1,0 +1,9 @@
+.loginButton{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.loginButton p{
+    margin: .5rem 0;
+    color: red;
+}
