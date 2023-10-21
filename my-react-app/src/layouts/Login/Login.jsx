@@ -34,14 +34,12 @@ export default function Login() {
   });
 
   const [SignData,setSignData] = useState({
-    grade: "",
+    grade: 1,
     password: "",
     username: ""
   })
 
   const history = useHistory();
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -97,7 +95,7 @@ export default function Login() {
         setTips ('The two password inputs are inconsistent')
       }else if (!grade){
         setIsShowErrortips (true)
-        setTips ('please select college')
+        setTips ('please select your grade')
       }else{
         const response= await axios.post('/admin/signup',{grade,password,username})
         console.log(response)
@@ -137,7 +135,7 @@ export default function Login() {
     if (localStorage.getItem('adminId')){
       history.push('/')
     }
-  });
+  },[history]);
 
   return (
     <div style={{ position: 'fixed', top: '0', right: '0', bottom: '0', left: '0', overflow: 'auto', backgroundColor: 'white' }}>

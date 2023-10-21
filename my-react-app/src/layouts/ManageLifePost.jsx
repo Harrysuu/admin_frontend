@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ManagePost() {
+export default function ManageLifePost() {
   return (
     <div>
       404

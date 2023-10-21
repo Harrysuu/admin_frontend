@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import ManageUser from './layouts/ManageUser';
+import ManageUser from './layouts/ManageUser/ManageUser';
 import Navigator from './layouts/Navigator';
-import ManagePost from './layouts/ManagePost';
+import ManageLifePost from './layouts/ManageLifePost';
 import ManageAnnounce from './layouts/ManageAnnounce';
 import ManageAdmin from './layouts/ManageAdmin'
 import Login from './layouts/Login/Login';
 import NotFound from './layouts/NotFound';
 import Home from './layouts/Home';
+import ManageForumPost from './layouts/ManageForumPost';
 
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
                 <Switch>
                   <Route path='/manageUser/page' component={ManageUser}/>
                   <Route exact path='/'><Home/></Route>
-                  <Route path='/managePost/page' component={ManagePost}/>
+                  <Route path='/manageLifePost/page' component={ManageLifePost}/>
+                  <Route path='/manageForumPost/page' component={ManageForumPost}/>
                   <Route path='/manageAnnounce/page' component={ManageAnnounce}/>
                   <Route path='/manageAdmin/page' component={ManageAdmin}/>
                   {isLoginPage && <Route path="/login/page" component={Login} />}
