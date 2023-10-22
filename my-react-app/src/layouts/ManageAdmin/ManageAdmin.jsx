@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Pagination } from 'antd';
 import { Card } from 'react-bootstrap';
-import './ManageUser.css'
+import './ManageAdmin.css'
 
-export default function ManageUser() {
+export default function ManageAdmin() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ export default function ManageUser() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post('/admin/getAllUser', {
+      const response = await axios.post('/admin/getAllAdmin', {
         current: currentPage,
         page: pageSize,
       });
@@ -24,10 +24,10 @@ export default function ManageUser() {
     }
   };
 
-  const toggleUserStatus = async (userId) => {
+  const toggleUserStatus = async (adminId) => {
     try {
       // 向后端发送请求，更新用户状态
-      const response = await axios.get(`/admin/changeUserStatus?userId=${userId}`);
+      const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
       // 处理成功后的逻辑，例如刷新数据
       fetchData();
       const { res,resMsg } = response.data
@@ -67,30 +67,26 @@ export default function ManageUser() {
             <thead>
               <tr>
                 <th scope="col">Number</th>
+                <th scope="col">ID</th>
                 <th scope="col">Username</th>
-                <th scope="col">Credit</th>
-                <th scope="col">College</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Edit Time</th>
+                <th scope="col">Grade</th>
+                <th scope="col">Operation Time</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((user, index) => (
-                <tr key={user.id}>
+              {data.map((admin, index) => (
+                <tr key={admin.id}>
                   <th scope="row">{index + 1}</th>
-                  <td>{user.username}</td>
-                  <td>{user.credit}</td>
-                  <td>{user.college}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phoneNumber}</td>
-                  <td>{user.editTime}</td>
+                  <td>{admin.id}</td>
+                  <td>{admin.username}</td>
+                  <td>{admin.grade}</td>
+                  <td>{admin.operationTime}</td>
                   <td>
-                   {user.statusInformation === 1 ? (
-                   <Button onClick={() => toggleUserStatus(user.id)} className='disable-button'>Disable</Button>
+                   {admin.status === 1 ? (
+                   <Button onClick={() => toggleUserStatus(admin.id)} className='disable-button'>Disable</Button>
                   ) : (
-                   <Button onClick={() => toggleUserStatus(user.id)} className='enable-button'>Enable</Button>
+                   <Button onClick={() => toggleUserStatus(admin.id)} className='enable-button'>Enable</Button>
                   )}
                   </td>
                 </tr>

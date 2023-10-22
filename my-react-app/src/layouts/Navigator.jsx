@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
@@ -6,19 +7,24 @@ export default function Navigator() {
   console.log(111)
   const history = useHistory;
 
-  function logout() {
-    localStorage.removeItem('userId')
-    history.push('login/page')
-  }
+  const handleLogout = async (e) => {
+    try {
+      await axios.get('/admin/logout');
+      localStorage.removeItem('adminId');
+      history.push('login/page')
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
+  };
 
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="/">
-            <img src="/Logo.png" alt="" style={{ width: '20%' }} /> Alumni
-            Circle
-          </Navbar.Brand>1
+            <img src="/Logo.png" alt="" style={{ width: '10%' }} /> Alumni
+            Circle Management System
+          </Navbar.Brand>
 
           <Nav className="me-auto">
             <Nav.Link href="/ManageUser/page">Users</Nav.Link>
@@ -30,7 +36,7 @@ export default function Navigator() {
           </Nav>
 
           <span style={{ margin: '0 10px' }}></span>
-          <Button href="/login/page" onClick={logout}>
+          <Button href="/login/page" onClick={handleLogout}>
             Logout
           </Button>
 

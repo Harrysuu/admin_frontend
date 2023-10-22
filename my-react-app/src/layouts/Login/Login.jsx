@@ -68,7 +68,7 @@ export default function Login() {
         setTips (response.data.resMsg)
       }else{
         //id储存在localStorage中
-        localStorage.setItem('userId', response.data.result.id);
+        localStorage.setItem('adminId', response.data.result.id);
         // 重定向到其他页面，例如用户主页
         history.push('/');
         window.location.reload()
@@ -142,7 +142,7 @@ export default function Login() {
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="/"><img src="/Logo.png" alt="" style={{width: '50%'}} /></Navbar.Brand>
-          <Navbar.Brand href="/">Alumni Circle</Navbar.Brand>
+          <Navbar.Brand href="/">Alumni Circle Management System </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">About us</Nav.Link>
           </Nav>
