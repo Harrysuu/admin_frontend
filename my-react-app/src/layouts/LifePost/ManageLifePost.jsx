@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pagination, Alert } from 'antd';
+import { Button, Pagination } from 'antd';
 import { Card } from 'react-bootstrap';
-import './ManageAdmin.css'
 
-export default function ManageAdmin() {
+export default function ManageLifePost() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [errorAlert,setErrorAlert] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
-      const response = await axios.post('/admin/getAllAdmin', {
+      const response = await axios.post('/admin/getAllLifePost', {
         current: currentPage,
         page: pageSize,
       });
@@ -26,26 +23,23 @@ export default function ManageAdmin() {
     }
   };
 
-  const toggleAdminStatus = async (adminId) => {
+  const toggleDelete = async (lifePostId) => {
     try {
       // 向后端发送请求，更新用户状态
-      const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
+      const response = await axios.get(`/lifePost/delete?id=${lifePostId}`);
       // 处理成功后的逻辑，例如刷新数据
       fetchData();
-      const { res,resMsg } = response.data
-      if(res === 1){
+      const { res, resMsg } = response.data
+      if (res === 1) {
         console.log(resMsg)
-      }else{
+      } else {
         console.error(resMsg)
-        setErrorAlert(true);
-        setErrorMessage(resMsg);
       }
     } catch (error) {
       console.error('Error toggling user status:', error);
-      setErrorAlert(true);
     }
   };
-  
+
 
   useEffect(() => {
     fetchData();
@@ -56,6 +50,20 @@ export default function ManageAdmin() {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
+
+  function getCategoryString(category) {
+    switch (category) {
+      case 1:
+        return "Social";
+      case 2:
+        return "Study";
+      case 3:
+        return "Sports";
+      // 添加更多的情况，以匹配其他数字
+      default:
+        return "Unknown Category";
+    }
+  }
 
   return (
     <div>
@@ -72,27 +80,29 @@ export default function ManageAdmin() {
             <thead>
               <tr>
                 <th scope="col">Number</th>
-                <th scope="col">ID</th>
-                <th scope="col">Username</th>
-                <th scope="col">Grade</th>
-                <th scope="col">Operation Time</th>
-                <th scope="col">Status</th>
+                <th scope="col">Title</th>
+                <th scope="col">Enroll</th>
+                <th scope="col">Address</th>
+                <th scope="col">Content</th>
+                <th scope="col">Post Time</th>
+                <th scope="col">Category</th>
+                <th scope='col'>Operation</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((admin, index) => (
-                <tr key={admin.id}>
+              {data.map((lifePostId, index) => (
+                <tr key={lifePostId.id}>
                   <th scope="row">{index + 1}</th>
-                  <td>{admin.id}</td>
-                  <td>{admin.username}</td>
-                  <td>{admin.grade}</td>
-                  <td>{admin.operationTime}</td>
+                  <td>{lifePostId.title}</td>
+                  <td>{lifePostId.peopleEnrol}</td>
+                  <td>{lifePostId.address}</td>
+                  <td>{lifePostId.content}</td>
+                  <td>{lifePostId.postTime}</td>
                   <td>
-                   {admin.status === 1 ? (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='disable-button'>Disable</Button>
-                  ) : (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='enable-button'>Enable</Button>
-                  )}
+                    {getCategoryString(lifePostId.category)}
+                  </td>
+                  <td>
+                    <Button onClick={() => toggleDelete(lifePostId.id)} className='disable-button'>Delete </Button>
                   </td>
                 </tr>
               ))}
@@ -110,11 +120,6 @@ export default function ManageAdmin() {
           onChange={handlePageChange}
         />
       </div>
-
-      {errorAlert && (
-        <Alert message="Error" description={errorMessage} type="error" closable onClose={() => setErrorAlert(false)} />
-      )}
-
     </div>
   );
 }

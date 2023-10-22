@@ -104,7 +104,7 @@ export default function Login() {
           setTips (response.data.resMsg)
         }else{
           //id储存在localStorage中
-          localStorage.setItem('userId', response.data.result.id);
+          localStorage.setItem('adminId', response.data.result.id);
           // 重定向到其他页面，例如用户主页
           history.push('/');
           window.location.reload()

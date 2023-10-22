@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pagination } from 'antd';
+import { Alert, Button, Pagination, Space } from 'antd';
 import { Card } from 'react-bootstrap';
 import './ManageUser.css'
 
@@ -9,8 +9,11 @@ export default function ManageUser() {
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [errorTip, setErrorTip] = useState(false)
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
       const response = await axios.post('/admin/getAllUser', {
         current: currentPage,
@@ -28,19 +31,20 @@ export default function ManageUser() {
     try {
       // 向后端发送请求，更新用户状态
       const response = await axios.get(`/admin/changeUserStatus?userId=${userId}`);
+      const { resMsg } = response.data
       // 处理成功后的逻辑，例如刷新数据
       fetchData();
-      const { res,resMsg } = response.data
-      if(res === 1){
-        console.log(resMsg)
-      }else{
-        console.error(resMsg)
-      }
+      setAlertMessage(resMsg);
+      setAlertVisible(true);
+      setErrorTip(false)
     } catch (error) {
       console.error('Error toggling user status:', error);
+      setAlertMessage(error.response.data.resMsg);
+      setAlertVisible(true);
+      setErrorTip(true)
     }
   };
-  
+
 
   useEffect(() => {
     fetchData();
@@ -69,7 +73,7 @@ export default function ManageUser() {
                 <th scope="col">Number</th>
                 <th scope="col">Username</th>
                 <th scope="col">Credit</th>
-                <th scope="col">College</th>
+                <th scope="col">Faculty</th>
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Edit Time</th>
@@ -87,11 +91,11 @@ export default function ManageUser() {
                   <td>{user.phoneNumber}</td>
                   <td>{user.editTime}</td>
                   <td>
-                   {user.statusInformation === 1 ? (
-                   <Button onClick={() => toggleUserStatus(user.id)} className='disable-button'>Disable</Button>
-                  ) : (
-                   <Button onClick={() => toggleUserStatus(user.id)} className='enable-button'>Enable</Button>
-                  )}
+                    {user.statusInformation === 1 ? (
+                      <Button onClick={() => toggleUserStatus(user.id)} className='disable-button'>Disable</Button>
+                    ) : (
+                      <Button onClick={() => toggleUserStatus(user.id)} className='enable-button'>Enable</Button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -109,6 +113,32 @@ export default function ManageUser() {
           onChange={handlePageChange}
         />
       </div>
+
+      <Space direction="vertical" style={{ width: '100%' }}>
+        {alertVisible && !errorTip && (
+          <Alert
+            message="Success Tips"
+            description={alertMessage}
+            type="success" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+
+        {alertVisible && errorTip && (
+          <Alert
+            message="Error"
+            description={alertMessage}
+            type="error" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+      </Space>
+
     </div>
+
   );
 }

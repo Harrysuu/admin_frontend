@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pagination, Alert } from 'antd';
+import { Button, Pagination } from 'antd';
 import { Card } from 'react-bootstrap';
-import './ManageAdmin.css'
 
-export default function ManageAdmin() {
+export default function ManageSecondPost() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [errorAlert,setErrorAlert] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('');
 
-  const fetchData = async () => {
+  const fetchData = async (e) => {
     try {
-      const response = await axios.post('/admin/getAllAdmin', {
+      const response = await axios.post('/admin/getAllSecondPost', {
         current: currentPage,
         page: pageSize,
       });
@@ -26,26 +23,23 @@ export default function ManageAdmin() {
     }
   };
 
-  const toggleAdminStatus = async (adminId) => {
+  const toggleDelete = async (secondPostId) => {
     try {
       // 向后端发送请求，更新用户状态
-      const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
+      const response = await axios.get(`/secondPost/delete?id=${secondPostId}`);
       // 处理成功后的逻辑，例如刷新数据
       fetchData();
-      const { res,resMsg } = response.data
-      if(res === 1){
+      const { res, resMsg } = response.data
+      if (res === 1) {
         console.log(resMsg)
-      }else{
+      } else {
         console.error(resMsg)
-        setErrorAlert(true);
-        setErrorMessage(resMsg);
       }
     } catch (error) {
       console.error('Error toggling user status:', error);
-      setErrorAlert(true);
     }
   };
-  
+
 
   useEffect(() => {
     fetchData();
@@ -56,6 +50,7 @@ export default function ManageAdmin() {
     setCurrentPage(page);
     setPageSize(pageSize);
   };
+
 
   return (
     <div>
@@ -72,27 +67,29 @@ export default function ManageAdmin() {
             <thead>
               <tr>
                 <th scope="col">Number</th>
-                <th scope="col">ID</th>
-                <th scope="col">Username</th>
-                <th scope="col">Grade</th>
-                <th scope="col">Operation Time</th>
-                <th scope="col">Status</th>
+                <th scope="col">Poster ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price(AUD)</th>
+                <th scope="col">Newness</th>
+                <th scope='col'>Count</th>
+                <th scope='col'>Edit Time</th>
+                <th scope='col'>Operation</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((admin, index) => (
-                <tr key={admin.id}>
+              {data.map((secondPostId, index) => (
+                <tr key={secondPostId.id}>
                   <th scope="row">{index + 1}</th>
-                  <td>{admin.id}</td>
-                  <td>{admin.username}</td>
-                  <td>{admin.grade}</td>
-                  <td>{admin.operationTime}</td>
+                  <td>{secondPostId.posterId}</td>
+                  <td>{secondPostId.commodityName}</td>
+                  <td>{secondPostId.category}</td>
+                  <td>{secondPostId.price}</td>
+                  <td>{secondPostId.newness}</td>
+                  <td>{secondPostId.count}</td>
+                  <td>{secondPostId.editTime}</td>
                   <td>
-                   {admin.status === 1 ? (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='disable-button'>Disable</Button>
-                  ) : (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='enable-button'>Enable</Button>
-                  )}
+                    <Button onClick={() => toggleDelete(secondPostId.id)} className='disable-button'>Delete </Button>
                   </td>
                 </tr>
               ))}
@@ -110,11 +107,6 @@ export default function ManageAdmin() {
           onChange={handlePageChange}
         />
       </div>
-
-      {errorAlert && (
-        <Alert message="Error" description={errorMessage} type="error" closable onClose={() => setErrorAlert(false)} />
-      )}
-
     </div>
   );
 }

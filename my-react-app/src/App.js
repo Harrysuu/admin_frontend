@@ -4,13 +4,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import ManageUser from './layouts/ManageUser/ManageUser';
 import Navigator from './layouts/Navigator';
-import ManageLifePost from './layouts/ManageLifePost';
-import ManageAnnounce from './layouts/ManageAnnounce';
+import ManageLifePost from './layouts/LifePost/ManageLifePost';
+import ManageAnnounce from './layouts/Announcement/ManageAnnounce';
 import ManageAdmin from './layouts/ManageAdmin/ManageAdmin'
 import Login from './layouts/Login/Login';
 import NotFound from './layouts/NotFound';
 import Home from './layouts/Home';
-import ManageForumPost from './layouts/ManageForumPost';
+import ManageForumPost from './layouts/Forum/ManageForumPost';
+import ManageSecondPost from './layouts/SecondHand/ManageSecondPost'
 import { Redirect } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
@@ -78,6 +79,12 @@ function App() {
                       <Home />
                     </ProtectedRoute>
                   </Route>
+                  <Route path='/secondPost/page'>
+                    <ProtectedRoute>
+                      <ManageSecondPost/>
+                    </ProtectedRoute>
+                  </Route>
+
                   <Route><NotFound /></Route>
                 </Switch>
               </Router>
