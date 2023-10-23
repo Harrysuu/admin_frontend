@@ -85,7 +85,7 @@ export default function ManageForumPost() {
                   <td>{forumPostId.editTime}</td>
                   <td>{forumPostId.category}</td>
                   <td>
-                    <Button onClick={() => toggleDelete(forumPostId.id)} className='disable-button'>Delete </Button>
+                    <Button onClick={() => toggleDelete(forumPostId.id)} className='disable-button'>Delete</Button>
                   </td>
                 </tr>
               ))}

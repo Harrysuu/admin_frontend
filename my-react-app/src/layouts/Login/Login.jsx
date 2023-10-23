@@ -208,7 +208,7 @@ export default function Login() {
                               </div>
                       </Form>
                       <Button variant="link" onClick={toggleLogin}>
-                       login
+                       Login
                       </Button>
                     </Col> :
                         <Col md={6}>

@@ -13,6 +13,8 @@ import Home from './layouts/Home';
 import ManageForumPost from './layouts/Forum/ManageForumPost';
 import ManageSecondPost from './layouts/SecondHand/ManageSecondPost'
 import { Redirect } from 'react-router-dom';
+import AnnouncementAdd from './layouts/Announcement/AnnouncementAdd';
+import AnnouncementUpdate from './layouts/Announcement/AnnouncementUpdate';
 
 const ProtectedRoute = ({ children }) => {
   if (localStorage.getItem('adminId')) {
@@ -44,7 +46,7 @@ function App() {
       {isLoggedIn && <Navigator />}
       <div className="container-fluid" style={customStyle}>
         <div className="d-flex justify-content-center">
-          <div className="col-md-10" style={{ marginLeft: 'auto', marginRight: 'auto' }}>
+          {/* <div className="col-md-10" style={{marginLeft: 'auto', marginRight: 'auto' }}> */}
             <div>
               <Router>
                 <Switch>
@@ -85,11 +87,23 @@ function App() {
                     </ProtectedRoute>
                   </Route>
 
+                  <Route path='/manageAnnounce/add'>
+                    <ProtectedRoute>
+                      <AnnouncementAdd/>
+                    </ProtectedRoute>
+                  </Route>
+
+                  <Route path='/manageAnnounce/update/:id'>
+                    <ProtectedRoute>
+                      <AnnouncementUpdate/>
+                    </ProtectedRoute>
+                  </Route>
+
                   <Route><NotFound /></Route>
                 </Switch>
               </Router>
             </div>
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </>

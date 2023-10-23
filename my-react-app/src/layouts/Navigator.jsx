@@ -29,14 +29,14 @@ export default function Navigator() {
           <Nav className="me-auto">
             <Nav.Link href="/ManageUser/page">Users</Nav.Link>
             <Nav.Link href="/ManageAdmin/page">Administrators</Nav.Link>
-            <Nav.Link href='ManageAnnounce/page'>Announcement</Nav.Link>
+            <Nav.Link href='/ManageAnnounce/page'>Announcement</Nav.Link>
             <Nav.Link href="/ManageLifePost/page">Life</Nav.Link>
             <Nav.Link href='/ManageForumPost/page'>Forum</Nav.Link>
             <Nav.Link href="/secondPost/page">SecondHand</Nav.Link>
           </Nav>
 
           <span style={{ margin: '0 10px' }}></span>
-          <Button href="/login/page" onClick={handleLogout}>
+          <Button href="/" onClick={handleLogout}>
             Logout
           </Button>
 
