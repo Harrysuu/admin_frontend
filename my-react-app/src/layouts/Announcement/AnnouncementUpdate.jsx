@@ -15,6 +15,12 @@ function AnnouncementUpdate(props) {
     star: 0,
   });
 
+  const centerTextStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+  };
+
   const history = useHistory();
 
   useEffect(() => {
@@ -50,7 +56,7 @@ function AnnouncementUpdate(props) {
   };
 
   return (
-    <div style={{ width: '50rem' }}>
+    <div style={centerTextStyle}>
       <div className="mb-4"></div>
       <div>
         <h3>Update Announcement</h3>

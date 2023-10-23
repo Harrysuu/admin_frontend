@@ -11,6 +11,12 @@ export default function AnnouncementAdd() {
     star: 0
   });
 
+  const centerTextStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+  };
+
   const history = useHistory();
 
   const handleSubmit = async (e) => {
@@ -36,7 +42,7 @@ export default function AnnouncementAdd() {
   };
 
   return (
-    <div style={{ width: '50rem' }}>
+    <div style= {centerTextStyle}>
       <div className="mb-4"></div>
       <div>
         <h3>Create your Announcement</h3>
