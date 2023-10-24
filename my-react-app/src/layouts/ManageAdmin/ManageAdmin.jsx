@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Pagination, Alert } from 'antd';
+import { Button, Pagination, Alert, Space } from 'antd';
 import { Card } from 'react-bootstrap';
 import './ManageAdmin.css'
 
@@ -9,8 +9,9 @@ export default function ManageAdmin() {
   const [total, setTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [errorAlert,setErrorAlert] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('');
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [errorTip, setErrorTip] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -30,22 +31,25 @@ export default function ManageAdmin() {
     try {
       // 向后端发送请求，更新用户状态
       const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
+      const { res,resMsg } = response.data
       // 处理成功后的逻辑，例如刷新数据
       fetchData();
-      const { res,resMsg } = response.data
-      if(res === 1){
-        console.log(resMsg)
-      }else{
-        console.error(resMsg)
-        setErrorAlert(true);
-        setErrorMessage(resMsg);
+      console.log(resMsg)
+      if(res===1){
+      setAlertMessage(resMsg);
+      setAlertVisible(true);
+      setErrorTip(false)
+      }
+      if(res===0){
+      setAlertMessage(resMsg);
+      setAlertVisible(true);
+      setErrorTip(true)
       }
     } catch (error) {
       console.error('Error toggling user status:', error);
-      setErrorAlert(true);
     }
   };
-  
+
 
   useEffect(() => {
     fetchData();
@@ -59,6 +63,31 @@ export default function ManageAdmin() {
 
   return (
     <div>
+
+      <Space direction="vertical" style={{ width: '100%' }}>
+        {alertVisible && !errorTip && (
+          <Alert
+            message="Success Tips"
+            description={alertMessage}
+            type="success" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+
+        {alertVisible && errorTip && (
+          <Alert
+            message="Error"
+            description={alertMessage}
+            type="error" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+      </Space>
+
       <div
         style={{
           display: 'flex',
@@ -88,11 +117,11 @@ export default function ManageAdmin() {
                   <td>{admin.grade}</td>
                   <td>{admin.operationTime}</td>
                   <td>
-                   {admin.status === 1 ? (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='disable-button'>Disable</Button>
-                  ) : (
-                   <Button onClick={() => toggleAdminStatus(admin.id)} className='enable-button'>Enable</Button>
-                  )}
+                    {admin.status === 1 ? (
+                      <Button onClick={() => toggleAdminStatus(admin.id)} className='disable-button'>Disable</Button>
+                    ) : (
+                      <Button onClick={() => toggleAdminStatus(admin.id)} className='enable-button'>Enable</Button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -110,10 +139,6 @@ export default function ManageAdmin() {
           onChange={handlePageChange}
         />
       </div>
-
-      {errorAlert && (
-        <Alert message="Error" description={errorMessage} type="error" closable onClose={() => setErrorAlert(false)} />
-      )}
 
     </div>
   );

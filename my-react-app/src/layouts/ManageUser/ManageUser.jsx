@@ -31,12 +31,18 @@ export default function ManageUser() {
     try {
       // 向后端发送请求，更新用户状态
       const response = await axios.get(`/admin/changeUserStatus?userId=${userId}`);
-      const { resMsg } = response.data
+      const { res,resMsg } = response.data
       // 处理成功后的逻辑，例如刷新数据
-      fetchData();
-      setAlertMessage(resMsg);
-      setAlertVisible(true);
-      setErrorTip(false)
+      if(res===1){
+        setAlertMessage(resMsg);
+        setAlertVisible(true);
+        setErrorTip(false)
+        }
+        if(res===0){
+        setAlertMessage(resMsg);
+        setAlertVisible(true);
+        setErrorTip(true)
+        }
     } catch (error) {
       console.error('Error toggling user status:', error);
       setAlertMessage(error.response.data.resMsg);
@@ -58,6 +64,29 @@ export default function ManageUser() {
 
   return (
     <div>
+      <Space direction="vertical" style={{ width: '100%' }}>
+        {alertVisible && !errorTip && (
+          <Alert
+            message="Success Tips"
+            description={alertMessage}
+            type="success" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+
+        {alertVisible && errorTip && (
+          <Alert
+            message="Error"
+            description={alertMessage}
+            type="error" // You can change the type to 'error' if needed
+            showIcon
+            closable
+            onClose={() => setAlertVisible(false)}
+          />
+        )}
+      </Space>
       <div
         style={{
           display: 'flex',
@@ -113,30 +142,6 @@ export default function ManageUser() {
           onChange={handlePageChange}
         />
       </div>
-
-      <Space direction="vertical" style={{ width: '100%' }}>
-        {alertVisible && !errorTip && (
-          <Alert
-            message="Success Tips"
-            description={alertMessage}
-            type="success" // You can change the type to 'error' if needed
-            showIcon
-            closable
-            onClose={() => setAlertVisible(false)}
-          />
-        )}
-
-        {alertVisible && errorTip && (
-          <Alert
-            message="Error"
-            description={alertMessage}
-            type="error" // You can change the type to 'error' if needed
-            showIcon
-            closable
-            onClose={() => setAlertVisible(false)}
-          />
-        )}
-      </Space>
 
     </div>
 
