@@ -1,17 +1,15 @@
 import axios from 'axios';
 import React from 'react';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 
 export default function Navigator() {
   console.log(111)
-  const history = useHistory;
 
   const handleLogout = async (e) => {
     try {
       await axios.get('/admin/logout');
       localStorage.removeItem('adminId');
-      history.push('login/page')
+      window.location.href='/'
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -36,7 +34,7 @@ export default function Navigator() {
           </Nav>
 
           <span style={{ margin: '0 10px' }}></span>
-          <Button href="/" onClick={handleLogout}>
+          <Button  onClick={handleLogout}>
             Logout
           </Button>
 
