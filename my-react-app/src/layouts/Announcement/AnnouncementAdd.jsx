@@ -24,12 +24,12 @@ export default function AnnouncementAdd() {
 
     try {
       const response = await axios.post('/announcement/add', announcement); // 发送 announcement 数据到后端的 /add 路由
-      // 清除表单或进行其他操作
+      
       console.info(response.data.res)
       history.push('/manageAnnounce/page');
     } catch (error) {
       console.error(error);
-      // 处理错误
+     
     }
   };
 

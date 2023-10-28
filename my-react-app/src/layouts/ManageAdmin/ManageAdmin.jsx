@@ -29,10 +29,10 @@ export default function ManageAdmin() {
 
   const toggleAdminStatus = async (adminId) => {
     try {
-      // 向后端发送请求，更新用户状态
+      
       const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
       const { res,resMsg } = response.data
-      // 处理成功后的逻辑，例如刷新数据
+     
       console.log(resMsg)
       if(res===1){
       setAlertMessage(resMsg);
@@ -69,7 +69,7 @@ export default function ManageAdmin() {
           <Alert
             message="Success Tips"
             description={alertMessage}
-            type="success" // You can change the type to 'error' if needed
+            type="success" 
             showIcon
             closable
             onClose={() => setAlertVisible(false)}
@@ -80,7 +80,7 @@ export default function ManageAdmin() {
           <Alert
             message="Error"
             description={alertMessage}
-            type="error" // You can change the type to 'error' if needed
+            type="error" 
             showIcon
             closable
             onClose={() => setAlertVisible(false)}
@@ -93,7 +93,7 @@ export default function ManageAdmin() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: 'calc(100vh - 56px)', // 调整页面高度以适应您的布局
+          minHeight: 'calc(100vh - 56px)', 
         }}
       >
         <Card style={{ width: '100%', minHeight: 'calc(100vh - 56px)', padding: '20px' }}>

@@ -29,10 +29,10 @@ export default function ManageUser() {
 
   const toggleUserStatus = async (userId) => {
     try {
-      // 向后端发送请求，更新用户状态
+      
       const response = await axios.get(`/admin/changeUserStatus?userId=${userId}`);
       const { res,resMsg } = response.data
-      // 处理成功后的逻辑，例如刷新数据
+    
       if(res===1){
         setAlertMessage(resMsg);
         setAlertVisible(true);
@@ -70,7 +70,7 @@ export default function ManageUser() {
           <Alert
             message="Success Tips"
             description={alertMessage}
-            type="success" // You can change the type to 'error' if needed
+            type="success"
             showIcon
             closable
             onClose={() => setAlertVisible(false)}
@@ -81,7 +81,7 @@ export default function ManageUser() {
           <Alert
             message="Error"
             description={alertMessage}
-            type="error" // You can change the type to 'error' if needed
+            type="error" 
             showIcon
             closable
             onClose={() => setAlertVisible(false)}
@@ -93,7 +93,7 @@ export default function ManageUser() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: 'calc(100vh - 56px)', // 调整页面高度以适应您的布局
+          minHeight: 'calc(100vh - 56px)',
         }}
       >
         <Card style={{ width: '100%', minHeight: 'calc(100vh - 56px)', padding: '20px' }}>

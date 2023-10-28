@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 function AnnouncementUpdate(props) {
-  const announcementId = props.match.params.id; // Get the ID from the route parameters
-//   const { announcementId } = useParams(); // 从 URL 中获取 announcementId
+  const announcementId = props.match.params.id; 
+
   console.log(announcementId);
   const [announcement, setAnnouncement] = useState({
     title: '',
@@ -24,7 +24,7 @@ function AnnouncementUpdate(props) {
   const history = useHistory();
 
   useEffect(() => {
-    // 在此处获取要更新的公告信息
+   
     axios.get(`/announcement/getAnnouncementById?id=${announcementId}`)
       .then(response => {
         setAnnouncement(response.data.result);
@@ -32,13 +32,13 @@ function AnnouncementUpdate(props) {
       .catch(error => {
         console.error('Error fetching announcement:', error);
       });
-  }, [announcementId]); // 在 announcementId 更改时重新获取公告信息
+  }, [announcementId]); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/announcement/update', announcement); // 发送更新后的 announcement 数据到后端的 /updateAnnouncement 路由
+      const response = await axios.post('/announcement/update', announcement); 
       console.log(response.data);
 
       history.push('/manageAnnounce/page');

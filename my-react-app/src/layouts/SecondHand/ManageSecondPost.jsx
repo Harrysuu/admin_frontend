@@ -25,7 +25,7 @@ export default function ManageSecondPost() {
 
   const toggleDelete = async (secondPostId) => {
     try {
-      // 向后端发送请求，更新用户状态
+      
       const response = await axios.get(`/secondPost/delete?id=${secondPostId}`);
       const { res, resMsg } = response.data
       if (res === 1) {
@@ -58,7 +58,7 @@ export default function ManageSecondPost() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: 'calc(100vh - 56px)', // 调整页面高度以适应您的布局
+          minHeight: 'calc(100vh - 56px)', 
         }}
       >
         <Card style={{ width: '100%', minHeight: 'calc(100vh - 56px)', padding: '20px' }}>

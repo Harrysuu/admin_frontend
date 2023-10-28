@@ -17,7 +17,7 @@ const headerStyle = {
 
 const cardStyle = {
   backgroundColor: 'light',
-  padding: '2rem', // Add padding to the Card
+  padding: '2rem', 
 };
 
 export default function Home() {
@@ -26,7 +26,7 @@ export default function Home() {
       <Card text="dark" style={cardStyle}>
   <Card.Body>
     <Container>
-      <div className="jumbotron"> {/* Apply the jumbotron class */}
+      <div className="jumbotron"> 
         <h1 style={headerStyle}>Welcome to the Alumni Administration Platform
         </h1>
         <p>
