@@ -30,8 +30,6 @@ export default function ManageAnnounce() {
     try {
       // 向后端发送请求，更新用户状态
       const response = await axios.get(`/announcement/delete?id=${announceId}`);
-      // 处理成功后的逻辑，例如刷新数据
-      fetchData();
       const { res, resMsg } = response.data
       if (res === 1) {
         console.log(resMsg)
@@ -40,6 +38,7 @@ export default function ManageAnnounce() {
         setErrorAlert(true);
         setErrorMessage(resMsg);
       }
+      fetchData();
     } catch (error) {
       console.error('Error toggling user status:', error);
       setErrorAlert(true);

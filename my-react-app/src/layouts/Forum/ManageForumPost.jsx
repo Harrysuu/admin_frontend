@@ -28,13 +28,13 @@ export default function ManageForumPost() {
       // 向后端发送请求，更新用户状态
       const response = await axios.get(`/forumPost/delete?id=${forumPostId}`);
       // 处理成功后的逻辑，例如刷新数据
-      fetchData();
       const { res, resMsg } = response.data
       if (res === 1) {
         console.log(resMsg)
       } else {
         console.error(resMsg)
       }
+      fetchData();
     } catch (error) {
       console.error('Error toggling user status:', error);
     }

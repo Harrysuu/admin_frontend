@@ -43,6 +43,7 @@ export default function ManageUser() {
         setAlertVisible(true);
         setErrorTip(true)
         }
+        fetchData();
     } catch (error) {
       console.error('Error toggling user status:', error);
       setAlertMessage(error.response.data.resMsg);

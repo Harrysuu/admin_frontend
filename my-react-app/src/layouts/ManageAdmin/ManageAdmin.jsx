@@ -33,7 +33,6 @@ export default function ManageAdmin() {
       const response = await axios.get(`/admin/editAdminStatus?adminId=${adminId}`);
       const { res,resMsg } = response.data
       // 处理成功后的逻辑，例如刷新数据
-      fetchData();
       console.log(resMsg)
       if(res===1){
       setAlertMessage(resMsg);
@@ -45,6 +44,7 @@ export default function ManageAdmin() {
       setAlertVisible(true);
       setErrorTip(true)
       }
+      fetchData();
     } catch (error) {
       console.error('Error toggling user status:', error);
     }
